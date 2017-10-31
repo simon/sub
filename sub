@@ -28,8 +28,8 @@ _sub_help(){
 
     run(){
         cmd "$1" || { _list ; exit ; }
+        printf "usage: %s %s %s\n\n" "$0" "$1" "$_USAGE"
         printf "%s : %s\n" "$1" "$_HELP"
-        printf "Usage: %s %s %s\n" "$0" "$1" "$_USAGE"
     }
     _list(){
         fns=$(declare -F | sed -n 's/declare -f _sub_//p')
