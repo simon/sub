@@ -2,20 +2,20 @@
 set -e
 
 _sub_cmd1(){
-    _USAGE="cmd1"
+    _USAGE="arg1"
     _HELP="cmd1 is an awesome command"
 
     run(){
-        echo run cmd1
+        echo run cmd1 -- $@
     }
 }
 
 _sub_cmd2(){
-    _USAGE="cmd2"
+    _USAGE="[args]"
     _HELP="cmd2 is an more awesome command"
 
     run(){
-        echo run cmd2
+        echo run cmd2 -- $@
     }
 }
 
@@ -23,22 +23,24 @@ _sub_cmd2(){
 # -----
 
 _sub_help(){
-    _USAGE="help"
-    _HELP="display help"
+    _USAGE=""
+    _HELP="display help on a command"
 
     run(){
-        cmd "$1" && echo $0 $1 : $_HELP
+        cmd "$1" || { _list ; exit ; }
+        printf "%s : %s\n" "$1" "$_HELP"
+        printf "Usage: %s %s %s\n" "$0" "$1" "$_USAGE"
     }
     _list(){
         fns=$(declare -F | sed -n 's/declare -f _sub_//p')
         for fn in $fns; do
-            cmd "$fn" && printf "%s : %s\n" "$_USAGE" "$_HELP"
+            cmd "$fn" && printf "%s : %s\n" "$fn" "$_HELP"
         done
     }
 }
 
 die(){ echo $@; exit 1;}
-cmd(){ cmd="_sub_$1"; declare -f "$cmd" > /dev/null && "$cmd" || die $1 unknown;  }
+cmd(){ cmd="_sub_$1"; declare -f "$cmd" > /dev/null && "$cmd"; }
 
 _main(){
     command="$1"
@@ -47,7 +49,8 @@ _main(){
       cmd "help" && _list
       ;;
     * )
-      cmd "$1" && { shift; run "$@"; }
+      cmd "$1" && { shift; run "$@"; } || die "$1 unknown"
+      
       ;;
     esac
 }
