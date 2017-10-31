@@ -4,7 +4,7 @@
 
 ## installation
 
-    wget https://raw.githubusercontent.com/simon/sub/master/sub -O my_script
+    wget https://raw.githubusercontent.com/simon/subc/master/sub -O my_script
     chmod +x my_script
     ./my_script
 
