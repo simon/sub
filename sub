@@ -23,7 +23,7 @@ _sub_cmd2(){
 # -----
 
 _sub_help(){
-    _USAGE=""
+    _USAGE="[cmd]"
     _HELP="display help on a command"
 
     run(){
