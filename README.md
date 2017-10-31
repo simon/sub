@@ -1,4 +1,4 @@
-# sub: a bash script framework
+# subc: a bash script framework
 
 
 
