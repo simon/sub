@@ -34,6 +34,6 @@ _sub_cmd1(){
         echo run cmd1 -- $@
     }
 }
-``` bash
+```
 
 
